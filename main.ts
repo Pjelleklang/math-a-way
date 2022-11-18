@@ -1,29 +1,63 @@
 namespace SpriteKind {
     export const Friendly = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Friendly, function (sprite, otherSprite) {
+    Svar()
+    info.changeScoreBy(1)
+    info.startCountdown(30)
+})
 function Forkerte () {
     Wrong = [
     12,
+    2,
+    29,
     1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
+    12,
+    48,
+    37,
+    7,
+    5,
+    29
     ]
+}
+info.onCountdownEnd(function () {
+    info.changeLifeBy(-1)
+    info.startCountdown(30)
+    Svar()
+})
+function Check_game () {
+    console.log(Qs.length)
+    if (Qs.length == 0) {
+        game.over(true, effects.starField)
+    }
+}
+function Svar () {
+    mySprite.sayText(Qs.shift())
+    mySprite2.sayText(Right.shift())
+    mySprite3.sayText(Wrong.shift())
+    mySprite.setPosition(70, 65)
+    mySprite2.setPosition(90, 30)
+    mySprite3.setPosition(30, 30)
+    Check_game()
 }
 function Spørgsmål () {
     Qs = [
     "6+10",
-    "32·17",
+    "2*2",
     "56 - 17",
-    "",
+    "3/9",
+    "6+7",
+    "4*11",
+    "15+12",
+    "2+3",
+    "20/5",
+    "(12*2)+3",
     ""
     ]
 }
+info.onLifeZero(function () {
+    game.over(false)
+})
 function GameSetup () {
     mySprite = sprites.create(img`
         ........................bbbbbbbbbbbbbbbbbbb..................................
@@ -103,82 +137,83 @@ function GameSetup () {
         ...............cc...........................................ccccdddccccdccccc
         ...............................................................ccccc..ccc....
         `, SpriteKind.Player)
-    scaling.scaleByPercent(mySprite, -50, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+    scaling.scaleByPercent(mySprite, -70, ScaleDirection.Uniformly, ScaleAnchor.Middle)
     controller.moveSprite(mySprite)
     scene.cameraFollowSprite(mySprite)
     tiles.setCurrentTilemap(tilemap`level1`)
     mySprite2 = sprites.create(img`
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . 3 3 3 3 3 3 3 . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Enemy)
-    scaling.scaleByPercent(mySprite2, 150, ScaleDirection.Uniformly, ScaleAnchor.Middle)
-    mySprite2.setPosition(96, 37)
-    mySprite3 = sprites.create(img`
-        . . . . 6 6 6 6 6 6 6 6 6 . . . 
-        . . . . 6 6 6 6 6 6 6 6 6 . . . 
-        . . . . 6 6 6 6 6 6 6 6 6 . . . 
-        . . . . 6 6 6 6 6 6 6 6 6 . . . 
-        . . . . 6 6 6 6 6 6 6 6 6 . . . 
-        . . . . 6 6 6 6 6 6 6 6 6 . . . 
-        . . . . 6 6 6 6 6 6 6 6 6 . . . 
-        . . . . 6 6 6 6 6 6 6 6 6 . . . 
-        . . . . 6 6 6 6 6 6 6 6 6 . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
+        ..........bbbbbbbbbbbb..........
+        .......bbb331111333333bbb.......
+        .....cbb3331111113333333bbb.....
+        ....cb33333311113333333111db....
+        ...cb3111133333333333311111db...
+        .ccbb1111113333333333311111ddcc.
+        ccbbd1111113333333333331111ddbcc
+        cbbbdd11111333333111333311ddbbbc
+        cbbbdddd1133333311111333bbbbbbbc
+        .cbbbddddbbb33331111dbbbbbbbbbc.
+        .ccbbbbbbbbbbbbbbdddbbbbbbbbbcc.
+        ...cccbbbbbbbbbbbbbbbbbbbbccc...
+        ......cccccccccccccccccccc......
+        ............bbbd11bb............
+        ...........bbbdd111bb...........
+        ..........bbbdddd11dbb..........
         `, SpriteKind.Friendly)
-    scaling.scaleByPercent(mySprite3, 150, ScaleDirection.Uniformly, ScaleAnchor.Middle)
-    mySprite3.setPosition(33, 35)
+    scaling.scaleByPercent(mySprite2, 10, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+    mySprite2.setPosition(90, 30)
+    mySprite3 = sprites.create(img`
+        ..........bbbbbbbbbbbb..........
+        .......bbb331111333333bbb.......
+        .....cbb3331111113333333bbb.....
+        ....cb33333311113333333111db....
+        ...cb3111133333333333311111db...
+        .ccbb1111113333333333311111ddcc.
+        ccbbd1111113333333333331111ddbcc
+        cbbbdd11111333333111333311ddbbbc
+        cbbbdddd1133333311111333bbbbbbbc
+        .cbbbddddbbb33331111dbbbbbbbbbc.
+        .ccbbbbbbbbbbbbbbdddbbbbbbbbbcc.
+        ...cccbbbbbbbbbbbbbbbbbbbbccc...
+        ......cccccccccccccccccccc......
+        ............bbbd11bb............
+        ...........bbbdd111bb...........
+        ..........bbbdddd11dbb..........
+        `, SpriteKind.Enemy)
+    scaling.scaleByPercent(mySprite3, 10, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+    mySprite3.setPosition(30, 30)
+    info.setLife(3)
+    Rigtige()
+    Forkerte()
+    Spørgsmål()
+    info.startCountdown(30)
+    Svar()
 }
 function Rigtige () {
     Right = [
     16,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
+    4,
+    39,
+    3,
+    13,
+    44,
+    27,
+    5,
+    4,
+    27
     ]
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    Svar()
+    info.changeLifeBy(-1)
+    info.startCountdown(30)
+})
 let mySprite3: Sprite = null
 let mySprite2: Sprite = null
 let mySprite: Sprite = null
 let Wrong: number[] = []
 let Right: number[] = []
 let Qs: string[] = []
-GameSetup()
 Qs = []
 Right = []
 Wrong = []
-game.onUpdate(function () {
-    Rigtige()
-    Forkerte()
-    Spørgsmål()
-})
-game.onUpdateInterval(5000, function () {
-    mySprite.sayText(Qs.shift(), 2000, false)
-    mySprite2.sayText(Right.shift(), 2000, false)
-    mySprite3.sayText(Wrong.shift(), 2000, false)
-})
+GameSetup()
